@@ -1,14 +1,15 @@
-//www.elegoo.com
-//2016.12.12
+//2017.11.28
 
 /*
- Stepper Motor Control - one revolution
+ Stepper Motor Control - manual steps control with Serial Monitor input
 
  This program drives a unipolar or bipolar stepper motor.
  The motor is attached to digital pins 8 - 11 of the Arduino.
 
- The motor should revolve one revolution in one direction, then
- one revolution in the other direction.
+ The motor should revolve depending on the number put in Serial Monitor Command. 
+ Positive number for clockwise and negative number for anti-clockwise. 
+
+ Begin by clicking on Serial Monitor button. 
 
  */
 
