@@ -4,7 +4,6 @@ from scipy.fftpack import fft
 import numpy
 import math
 from scipy.signal import find_peaks_cwt
-import peakutils
 import scipy.optimize as optimization
 import numpy as np
 import peak_finder
@@ -34,7 +33,7 @@ time = n/fs
 frequency = k/time
 frequency = frequency[range(int(int(n)/2))]
 #frequency = frequency[1000:]
-print("time is "+ str(time))
+int("time is "+ str(time))
 
 a = data.T[0]
 c = fft(a)
