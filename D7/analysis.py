@@ -6,8 +6,8 @@ import math
 from scipy.signal import find_peaks_cwt
 import scipy.optimize as optimization
 import numpy as np
-import peak_finder
-
+#import peak_finder
+import soundfile as sf
 def func_rod(datax,A0,w0,tau0,A1,w1,tau1):
     return A0*np.exp(-0.5*((datax-w0)/tau0)**2)+ A1*np.exp(-0.5*((datax-w1)/tau1)**2)
 
@@ -22,7 +22,8 @@ def ddata(datax, datay):
         ddatay.append((datay[i+1]-datay[i])/step)
     return ddatay
 
-fs, data = wavfile.read('proto.wav')
+#fs, data = wavfile.read('proto.wav')
+data, fs= sf.read('proto.wav')
 #data = data/ (2.**15)
 #data = data[23000:]
 dt = 1/fs
