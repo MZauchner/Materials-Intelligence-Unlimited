@@ -6,7 +6,8 @@ import math
 from scipy.signal import find_peaks_cwt
 import scipy.optimize as optimization
 import numpy as np
-#import peak_finder
+import sys
+sys.path.insert('/Users/mariozauchner/dev/VibratINC/D8')
 import soundfile as sf
 def func_rod(datax,A0,w0,tau0,A1,w1,tau1):
     return A0*np.exp(-0.5*((datax-w0)/tau0)**2)+ A1*np.exp(-0.5*((datax-w1)/tau1)**2)
