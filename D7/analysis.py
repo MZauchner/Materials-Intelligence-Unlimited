@@ -7,7 +7,13 @@ from scipy.signal import find_peaks_cwt
 import scipy.optimize as optimization
 import numpy as np
 import sys
-sys.path.insert('/Users/mariozauchner/dev/VibratINC/D8')
+import subprocess
+
+subprocess.Popen('arecord -Dhw:1 -c 2 -f S16_LE -r 11015 proto.wav', shell=True)    
+sys.path.append('/home/pi/bin/VibratINC/D3')
+
+import hammer_time
+subprocess.Popen("pkill arecord", shell=True)
 import soundfile as sf
 def func_rod(datax,A0,w0,tau0,A1,w1,tau1):
     return A0*np.exp(-0.5*((datax-w0)/tau0)**2)+ A1*np.exp(-0.5*((datax-w1)/tau1)**2)
@@ -35,7 +41,7 @@ time = n/fs
 frequency = k/time
 frequency = frequency[range(int(int(n)/2))]
 #frequency = frequency[1000:]
-int("time is "+ str(time))
+print("time is "+ str(time))
 
 a = data.T[0]
 c = fft(a)

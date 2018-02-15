@@ -18,15 +18,16 @@ def hammer_time(com, baud, impact_time, head_pos, delay, reps):
 
 ##Serial port  - currently set for windows
 ##These need to match the values in the arduino script!
-com_port = "COM5"
+com_port = "/dev/ttyUSB0"
 baud_rate = 115200
 
 ##Pause between servo movement and testing
 ##use 500 for testing and 2000 for actual operation
 delay = 2000
 repeats = 5
-
-hammer_time(com_port, baud_rate, 7, 180, delay, repeats)
+rodpos = 180
+slidepos = 20
+hammer_time(com_port, baud_rate, 7, rodpos, delay, repeats)
 
 ###intercalated power and impact time test - will be used for force calibration
 #for power in range(800, 1030, 10):
