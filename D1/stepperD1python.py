@@ -9,6 +9,7 @@ import serial
 import time 
 
 D1= "1"
+#change to "1" or "2" depending on the command you would want to execute manually. 
 ser = serial.Serial("COM6",9600)
 time.sleep(3)
 
