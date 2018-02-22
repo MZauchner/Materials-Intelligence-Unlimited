@@ -26,11 +26,14 @@ baud_rate = 115200
 delay = 2000
 repeats = 5
 
-hammer_time(com_port, baud_rate, 7, 180, delay, repeats)
+##Sample specific parameters
+rod_strike = 7
+rod_pos = 30
+slide_strike = 10
+slide_pos = 160
 
-###intercalated power and impact time test - will be used for force calibration
-#for power in range(800, 1030, 10):
-#    for impact_time in range(1,21):
-#        hammer_time(com_port, baud_rate, impact_time, 120, delay, power)
-#        print("Power level:" + str(power))
-#        print("Switch-on Time:" + str(impact_time))
+def test(obj):
+    if obj == "rod":
+        hammer_time(com_port, baud_rate, rod_strike, rod_pos, delay, repeats)
+    elif obj == "slide":
+        hammer_time(com_port, baud_rate, slide_strike, slide_pos, delay, repeats)
