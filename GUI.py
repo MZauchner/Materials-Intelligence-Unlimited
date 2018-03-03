@@ -1,9 +1,16 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
 import sys
-from D7 import *
+from D1 import *
+from D2 import *
+from D3 import *
+from D4 import *
+from D5 import *
+from D6 import *
+from D7 import analysis
 import sys
 sys.path.append("..")
+analysis.analyze(1,2,3,"rod")
 class Window(QtWidgets.QWidget):
 
     def __init__(self):
