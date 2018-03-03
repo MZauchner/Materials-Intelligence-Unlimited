@@ -1,7 +1,9 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
 import sys
-
+from D7 import *
+import sys
+sys.path.append("..")
 class Window(QtWidgets.QWidget):
 
     def __init__(self):
