@@ -1,14 +1,15 @@
-import serial 
+import serial
 
-ser = serial.Serial('COM3', 9600)
 
-mode = input('choose your operating mode:')
+#mode = input('choose your operating mode:')
+def slidesilo(mode):
+    ser = serial.Serial('COM3', 9600)
 
-if mode == "rotate":
-	ser.write(b'rotate')
+    if mode == "rotate":
+	    ser.write(mode.encode("utf-8"))
 
-elif mode == "forward":
-	ser.write(b'forward')
+    elif mode == "forward":
+	    ser.write(mode.encode("utf-8"))
 
-elif mode == "backward":
-	ser.write(b'backward')
+    elif mode == "backward":
+	    ser.write(mode.encode("utf-8"))
