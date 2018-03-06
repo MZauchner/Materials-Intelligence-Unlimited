@@ -12,10 +12,12 @@ motion = input('Which direction do you want to move in?:')
 
 # Assign numerals to send to Arduino for a given string
 if motion == "cw":
-    arduinoData.write(1)
+    arduinoData.write("1".encode("utf-8")) # Send over data as bytes to Arduino
     
 elif motion == "ccw":
-    arduinoData.write(2)
+    arduinoData.write("2".encode("utf-8"))
     
 elif motion == "both":
-    arduinoData.write(3)
+    arduinoData.write("3".encode("utf-8"))
+
+arduinoData.close()
