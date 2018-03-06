@@ -9,8 +9,9 @@ import numpy as np
 import sys
 import subprocess
 
-sys.path.append('/home/pi/bin/VibratINC/D3')
+sys.path.append('/Users/mariozauchner/Dev/VibratINC/D3')
 
+import Python3SolenoidDriver as p3
 import soundfile as sf
 def func_rod(datax,A0,w0,tau0,A1,w1,tau1):
     return A0*np.exp(-0.5*((datax-w0)/tau0)**2)+ A1*np.exp(-0.5*((datax-w1)/tau1)**2)
@@ -36,7 +37,7 @@ def analyze(accepted_deviation, rod_freq, slide_freq, sample):
         lower_freq = rod_freq - accepted_deviation/2
 
     subprocess.Popen('arecord -Dhw:1 -c 2 -f S16_LE -r 11015 proto.wav', shell=True)    
-    import hammer_time
+    p3.test(sample)
     subprocess.Popen("pkill arecord", shell=True)
     data, fs= sf.read('proto.wav')
     #data = data/ (2.**15)

@@ -3,14 +3,13 @@ from PyQt5.QtCore import Qt
 import sys
 from D1 import *
 from D2 import *
-from D3 import *
+from D3 import Python3SolenoidDriver as p3
 from D4 import *
 from D5 import *
 from D6 import *
 from D7 import analysis
 import sys
 sys.path.append("..")
-analysis.analyze(1,2,3,"rod")
 class Window(QtWidgets.QWidget):
 
     def __init__(self):
@@ -52,26 +51,26 @@ class Window(QtWidgets.QWidget):
         vbox = QtWidgets.QVBoxLayout()
         vbox.addWidget(self.l)
 
-        vbox.addWidget(self.b)
+        vbox.addWidget(self.b) #rod silo
         vbox.addWidget(self.b2)
-        vbox.addWidget(self.l2)
+        vbox.addWidget(self.l2) #slide silo
         vbox.addWidget(self.b4)
         vbox.addWidget(self.b3)
-        vbox.addWidget(self.l10)
+        vbox.addWidget(self.l10) #slide holder
         vbox.addWidget(self.b15)
         vbox.addWidget(self.b16)
-        vbox.addWidget(self.l3)
+        vbox.addWidget(self.l3) #excitation
         vbox.addWidget(self.b5)
         vbox.addWidget(self.b6)
         vbox.addWidget(self.b7)
         vbox.addWidget(self.b8)
-        vbox.addWidget(self.l4)
+        vbox.addWidget(self.l4) #frequency
         vbox.addWidget(self.b9)
         vbox.addWidget(self.b10)
-        vbox.addWidget(self.l5)
+        vbox.addWidget(self.l5) #conveyor belt
         vbox.addWidget(self.b11)
         vbox.addWidget(self.b12)
-        vbox.addWidget(self.l6)
+        vbox.addWidget(self.l6) #run all
         vbox.addWidget(self.b13)
         vbox.addWidget(self.b14)
         vbox.addLayout(hbox)
@@ -80,8 +79,10 @@ class Window(QtWidgets.QWidget):
         self.show()
         self.b.clicked.connect(self.click)
 
+
     def click(self):
-        self.l.setText("lol")
+        analysis.analyze(1,2,3,"rod")
+
 app = QtWidgets.QApplication(sys.argv)
 a_window = Window()
 sys.exit(app.exec_())
