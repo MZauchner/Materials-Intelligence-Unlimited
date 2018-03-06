@@ -1,5 +1,8 @@
 import sys
 
+import numpy as np
+from matplotlib import pyplot as plt
+
 from D1 import stepperD1python
 from D2 import slide_holder as sh
 from D3 import Python3SolenoidDriver as p3
@@ -17,6 +20,17 @@ class Window(QtWidgets.QWidget):
         self.init_ui()
 
     def init_ui(self):
+        self.rodfrequency = QtWidgets.QLineEdit("3450")
+        self.rodfrequencyl = QtWidgets.QLabel("frequency of rod [Hz]")
+
+        self.slidefrequency = QtWidgets.QLineEdit("1050")
+        self.slidefrequencyl = QtWidgets.QLabel("frequency of slide [Hz]")
+        self.frequencytolerance = QtWidgets.QLineEdit("100")
+        self.frequencytolerancel = QtWidgets.QLabel("tolerated error [Hz]")
+        self.result = QtWidgets.QLabel()
+        self.resultlabel = QtWidgets.QLabel("result")
+
+
         self.b = QtWidgets.QPushButton("push in")
         self.l = QtWidgets.QLabel("rod silo")
         self.b2 = QtWidgets.QPushButton("push out")
@@ -40,7 +54,7 @@ class Window(QtWidgets.QWidget):
         self.b12 = QtWidgets.QPushButton("move backward")
         self.l5 = QtWidgets.QLabel("conveyor belt")
         self.l6 = QtWidgets.QLabel("run all")
-        self.b13 = QtWidgets.QPushButton("run")
+        self.b13 = QtWidgets.QPushButton("run all")
         self.b14 = QtWidgets.QPushButton("stop")
         self.b17= QtWidgets.QPushButton("adjust -36 deg")
 
@@ -50,7 +64,23 @@ class Window(QtWidgets.QWidget):
 
         hbox.addStretch()
 
+        hbox2 = QtWidgets.QHBoxLayout()
+        hbox2.addStretch()
+
+        hbox2.addStretch()
+
+        """button box"""
         vbox = QtWidgets.QVBoxLayout()
+        """options box"""
+        vbox2 = QtWidgets.QVBoxLayout()
+        vbox2.addWidget(self.rodfrequencyl)
+        vbox2.addWidget(self.rodfrequency)
+        vbox2.addWidget(self.slidefrequencyl)
+        vbox2.addWidget(self.slidefrequency)
+        vbox2.addWidget(self.frequencytolerancel)
+        vbox2.addWidget(self.frequencytolerance)
+        vbox2.addWidget(self.resultlabel)
+        vbox2.addWidget(self.result)
         vbox.addWidget(self.l)
 
         vbox.addWidget(self.b) #rod silo
@@ -74,11 +104,12 @@ class Window(QtWidgets.QWidget):
         vbox.addWidget(self.l5) #conveyor belt
         vbox.addWidget(self.b11)
         vbox.addWidget(self.b12)
-        vbox.addWidget(self.l6) #run all
+        #vbox.addWidget(self.l6) #run all
         vbox.addWidget(self.b13)
         vbox.addWidget(self.b14)
-        vbox.addLayout(hbox)
-        self.setLayout(vbox)
+        hbox.addLayout(vbox2)
+        hbox.addLayout(vbox)
+        self.setLayout(hbox)
         self.setWindowTitle("VibratINC Quality Control")
         self.show()
 
@@ -114,12 +145,30 @@ class Window(QtWidgets.QWidget):
     """function for frequency analysis"""
     def analyserod(self):
         frequency, amplitude = analysis.analyze(1,2,3,"rod")
-        resonance = frequency[amplitude.index(max(amplitude))]
-        print(resonance)
+        resonance = frequency[np.where(amplitude == max(amplitude))]
+        rodf = float(self.rodfrequency.text())
+        tol = float(self.frequencytolerance.text())
+        if resonance <= rodf-tol/2 or resonance >=rodf+tol/2:
+
+            self.result.setText("rejected")
+        else:
+            self.result.setText("accepted")
+        plt.plot(frequency, amplitude)
+        plt.show()
     def analyseslide(self):
         frequency, amplitude = analysis.analyze(1,2,3,"slide")
-        resonance = frequency[amplitude.index(max(amplitude))]
+        resonance = frequency[np.where(amplitude == max(amplitude))]
         print(resonance)
+        slidef = float(self.slidefrequency.text())
+        tol = float(self.frequencytolerance.text())
+        if resonance <= slidef-tol/2 or resonance >=slidef+tol/2:
+            self.result.setText("rejected")
+        else:
+            self.result.setText("accepted")
+        plt.plot(frequency, amplitude)
+        plt.show()
+
+
 
     """functions for rod silo"""
 
@@ -163,7 +212,6 @@ class Window(QtWidgets.QWidget):
         conv.conveyor("1")
     def convbackward(self):
         conv.conveyor("2")
-
 
 
 app = QtWidgets.QApplication(sys.argv)
