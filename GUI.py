@@ -3,9 +3,8 @@ import sys
 from D1 import stepperD1python
 from D2 import slide_holder as sh
 from D3 import Python3SolenoidDriver as p3
-from D4 import *
+from D4 import conveyor as conv
 from D5 import pyserial_control as psc
-from D6 import *
 from D7 import analysis
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
@@ -103,7 +102,9 @@ class Window(QtWidgets.QWidget):
         self.b7.clicked.connect(self.moveslide) #move to slide
         self.b8.clicked.connect(self.moverod) #move to rod
 
-
+        """buttons for conveyor belt"""
+        self.b11.clicked.connect(self.convforward) #forward motion
+        self.b12.clicked.connect(self.convbackward) #backward motion
 
 
     """function for frequency analysis"""
@@ -146,6 +147,12 @@ class Window(QtWidgets.QWidget):
         return 0
     def moverod(self):
         return 0
+
+    """functions for conveyor belt"""
+    def convforward(self):
+        conv.conveyor("1")
+    def convbackward(self):
+        conv.conveyor("2")
 
 
 

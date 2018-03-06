@@ -1,12 +1,14 @@
 
 import serial
 
-ser = serial.Serial('COM3', 9600)
 
-mode = input('choose your operating mode:')
+def conveyor(mode):
+    ser = serial.Serial('COM3', 9600)
 
-if mode == "1":
-	ser.write(b'1')
+    #mode = input('choose your operating mode:')
 
-elif mode == "2":
-	ser.write(b'2')
+    if str(mode) == "1":
+	    ser.write(mode.encode("utf-8"))
+
+    elif str(mode) == "2":
+	    ser.write(mode.encode("utf-8"))
