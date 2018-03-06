@@ -97,6 +97,13 @@ class Window(QtWidgets.QWidget):
         self.b16.clicked.connect(self.slideholderbackward)
         self.b18.clicked.connect(self.slideholderboth) #pushes into holder
 
+        """buttons for excitation"""
+        self.b5.clicked.connect(self.exciterod) #excite rod
+        self.b6.clicked.connect(self.exicteslide) #excite slide
+        self.b7.clicked.connect(self.moveslide) #move to slide
+        self.b8.clicked.connect(self.moverod) #move to rod
+
+
 
 
     """function for frequency analysis"""
@@ -130,6 +137,15 @@ class Window(QtWidgets.QWidget):
     def slideholderboth(self):
         sh.slideholder("both")
 
+    """functions for excitation"""
+    def exciterod(self):
+        p3.test("rod")
+    def exicteslide(self):
+        p3.test("slide")
+    def moveslide(self):
+        return 0
+    def moverod(self):
+        return 0
 
 
 
