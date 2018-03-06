@@ -106,10 +106,20 @@ class Window(QtWidgets.QWidget):
         self.b11.clicked.connect(self.convforward) #forward motion
         self.b12.clicked.connect(self.convbackward) #backward motion
 
+        """buttons for frequency analysis"""
+        self.b9.clicked.connect(self.analyserod) #analyse rod
+        self.b10.clicked.connect(self.analyseslide) #analyse slide
+
 
     """function for frequency analysis"""
-    def click(self):
-        analysis.analyze(1,2,3,"rod")
+    def analyserod(self):
+        frequency, amplitude = analysis.analyze(1,2,3,"rod")
+        resonance = frequency[amplitude.index(max(amplitude))]
+        print(resonance)
+    def analyseslide(self):
+        frequency, amplitude = analysis.analyze(1,2,3,"slide")
+        resonance = frequency[amplitude.index(max(amplitude))]
+        print(resonance)
 
     """functions for rod silo"""
 
