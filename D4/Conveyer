@@ -1,0 +1,12 @@
+
+import serial
+
+ser = serial.Serial('COM3', 9600)
+
+mode = input('choose your operating mode:')
+
+if mode == "1":
+	ser.write(b'1')
+
+elif mode == "2":
+	ser.write(b'2')
