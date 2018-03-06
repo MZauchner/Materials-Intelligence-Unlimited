@@ -2,6 +2,10 @@ import sys
 
 import numpy as np
 from matplotlib import pyplot as plt
+from matplotlib.backends.backend_qt5agg import \
+    FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import \
+    NavigationToolbar2QT as NavigationToolbar
 
 from D1 import stepperD1python
 from D2 import slide_holder as sh
@@ -17,6 +21,15 @@ class Window(QtWidgets.QWidget):
 
     def __init__(self):
         super().__init__()
+        self.figure = plt.figure()
+
+        # this is the Canvas Widget that displays the `figure`
+        # it takes the `figure` instance as a parameter to __init__
+        self.canvas = FigureCanvas(self.figure)
+
+        # this is the Navigation widget
+        # it takes the Canvas widget and a parent
+        self.toolbar = NavigationToolbar(self.canvas, self)
         self.init_ui()
 
     def init_ui(self):
@@ -64,15 +77,15 @@ class Window(QtWidgets.QWidget):
 
         hbox.addStretch()
 
-        hbox2 = QtWidgets.QHBoxLayout()
-        hbox2.addStretch()
 
-        hbox2.addStretch()
 
         """button box"""
         vbox = QtWidgets.QVBoxLayout()
         """options box"""
         vbox2 = QtWidgets.QVBoxLayout()
+        """plot box"""
+        vbox3 = QtWidgets.QVBoxLayout()
+        vbox3.addWidget(self.canvas)
         vbox2.addWidget(self.rodfrequencyl)
         vbox2.addWidget(self.rodfrequency)
         vbox2.addWidget(self.slidefrequencyl)
@@ -107,6 +120,7 @@ class Window(QtWidgets.QWidget):
         #vbox.addWidget(self.l6) #run all
         vbox.addWidget(self.b13)
         vbox.addWidget(self.b14)
+        hbox.addLayout(vbox3)
         hbox.addLayout(vbox2)
         hbox.addLayout(vbox)
         self.setLayout(hbox)
@@ -144,6 +158,8 @@ class Window(QtWidgets.QWidget):
 
     """function for frequency analysis"""
     def analyserod(self):
+        self.figure.clear()
+        ax = self.figure.add_subplot(111)
         frequency, amplitude = analysis.analyze(1,2,3,"rod")
         resonance = frequency[np.where(amplitude == max(amplitude))]
         rodf = float(self.rodfrequency.text())
@@ -153,9 +169,13 @@ class Window(QtWidgets.QWidget):
             self.result.setText("rejected")
         else:
             self.result.setText("accepted")
-        plt.plot(frequency, amplitude)
-        plt.show()
+        ax.plot(frequency, amplitude)
+        self.canvas.draw()
+
     def analyseslide(self):
+        self.figure.clear()
+        ax = self.figure.add_subplot(111)
+
         frequency, amplitude = analysis.analyze(1,2,3,"slide")
         resonance = frequency[np.where(amplitude == max(amplitude))]
         print(resonance)
@@ -166,7 +186,7 @@ class Window(QtWidgets.QWidget):
         else:
             self.result.setText("accepted")
         plt.plot(frequency, amplitude)
-        plt.show()
+        self.canvas.draw()
 
 
 
