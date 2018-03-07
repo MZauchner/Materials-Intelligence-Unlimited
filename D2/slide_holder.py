@@ -7,7 +7,7 @@ import serial
 
 #Establish connection to Arduino via serial port
 def slideholder(motion):
-    arduinoData = serial.Serial('/dev/ttyACM2',9600)
+    arduinoData = serial.Serial('/dev/ttyACM0',9600)
 
     # Create variable motion to determine how the slide holder's part should rotate
     #motion = input('Which direction do you want to move in?:')
