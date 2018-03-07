@@ -1,7 +1,7 @@
 import math
 import subprocess
 import sys
-sys.path.append('/Users/mariozauchner/Dev/VibratINC/D3')
+sys.path.append('/home/pi/bin/VibratINC/D3/')
 import numpy as np
 import scipy.optimize as optimization
 from matplotlib import pyplot as plt

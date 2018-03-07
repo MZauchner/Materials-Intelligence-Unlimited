@@ -193,10 +193,10 @@ class Window(QtWidgets.QWidget):
     """functions for rod silo"""
 
     def rodsilo_push_in(self):
-        stepperD1python.rodsilo(1)
+        stepperD1python.rodsilo("1")
 
     def rodsilo_push_out(self):
-        stepperD1python.rodsilo(2)
+        stepperD1python.rodsilo("2")
 
     """buttons for slidsilo"""
     def slideforward(self): #adjusts position of stepper motor by +36 degrees

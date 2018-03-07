@@ -1,13 +1,13 @@
 # D2 Slide Holder group
 # This code is to control the Arduino code d2-slideholder.ino
-
+#upper left usb port
 #   Import the serial library
 import serial
 
 
 #Establish connection to Arduino via serial port
 def slideholder(motion):
-    arduinoData = serial.Serial('COM8',9600)
+    arduinoData = serial.Serial('/dev/ttyACM1',9600)
 
     # Create variable motion to determine how the slide holder's part should rotate
     #motion = input('Which direction do you want to move in?:')
