@@ -16,7 +16,8 @@ import soundfile as sf
 sys.path.append('/home/pi/bin/VibratINC/D3/')
 
 def func_rod(datax,A0,w0,tau0,A1,w1,tau1):
-    return A0*np.exp(-0.5*((datax-w0)/tau0)**2)+ A1*np.exp(-0.5*((datax-w1)/tau1)**2)
+    return A0*np.exp(-0.5*((datax-w0)/tau0)**2)+ \
+    A1*np.exp(-0.5*((datax-w1)/tau1)**2)
 
 def func_slide(datax,A=200, w0=3000, tau = 5.5):
     return A*np.exp(-0.5*((datax-w0)/tau)**2)
@@ -29,27 +30,23 @@ def ddata(datax, datay):
         ddatay.append((datay[i+1]-datay[i])/step)
     return ddatay
 
-def analyze(accepted_deviation, rod_freq, slide_freq, sample, mode="test"):
-    #fs, data = wavfile.read('proto.wav')
-    if sample == "slide":
-        upper_freq = slide_freq + accepted_deviation/2
-        lower_freq = slide_freq - accepted_deviation/2
-    if sample == "rod":
-        upper_freq = rod_freq + accepted_deviation/2
-        lower_freq = rod_freq - accepted_deviation/2
+def analyze(sample, mode="test"):
+
 
     if mode == "recording":
 
     """record for 10 seconds"""
 
-        subprocess.Popen('arecord -Dhw:1 -c 2 -f S16_LE -r 11015 proto.wav', shell=True)#launch recording in shell
+        subprocess.Popen('arecord -Dhw:1 -c 2 -f S16_LE -r 11015 proto.wav', \
+        shell=True)#launch recording in shell
         time.sleep(10) #wait for 10 seconds
         subprocess.Popen("pkill arecord", shell=True)#kill shell process
     else:
 
         """launch subprocess for recording and excitation of sample"""
 
-        subprocess.Popen('arecord -Dhw:1 -c 2 -f S16_LE -r 11015 proto.wav', shell=True)#launch recording in shell
+        subprocess.Popen('arecord -Dhw:1 -c 2 -f S16_LE -r 11015 proto.wav', \
+        shell=True)#launch recording in shell
         p3.test(sample)#call excitation function of excitation group
         subprocess.Popen("pkill arecord", shell=True)#kill shell process
 

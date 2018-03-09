@@ -160,7 +160,7 @@ class Window(QtWidgets.QWidget):
     def analyserod(self):
         self.figure.clear()
         ax = self.figure.add_subplot(111)
-        frequency, amplitude = analysis.analyze(1,2,3,"rod")
+        frequency, amplitude = analysis.analyze("rod")
         resonance = frequency[np.where(amplitude == max(amplitude))]
         rodf = float(self.rodfrequency.text())
         tol = float(self.frequencytolerance.text())
@@ -176,7 +176,7 @@ class Window(QtWidgets.QWidget):
         self.figure.clear()
         ax = self.figure.add_subplot(111)
 
-        frequency, amplitude = analysis.analyze(1,2,3,"slide")
+        frequency, amplitude = analysis.analyze("slide")
         resonance = frequency[np.where(amplitude == max(amplitude))]
         print(resonance)
         slidef = float(self.slidefrequency.text())
