@@ -14,7 +14,7 @@ import Python3SolenoidDriver as p3
 import soundfile as sf
 
 sys.path.append('/home/pi/bin/VibratINC/D3/')
-
+"""
 def func_rod(datax,A0,w0,tau0,A1,w1,tau1):
     return A0*np.exp(-0.5*((datax-w0)/tau0)**2)+ \
     A1*np.exp(-0.5*((datax-w1)/tau1)**2)
@@ -29,7 +29,7 @@ def ddata(datax, datay):
     for i in range(len(datay)-1):
         ddatay.append((datay[i+1]-datay[i])/step)
     return ddatay
-
+"""
 def analyze(sample, mode="test"):
 
 
