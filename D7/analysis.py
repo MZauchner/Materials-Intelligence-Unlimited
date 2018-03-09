@@ -48,6 +48,7 @@ def analyze(sample, mode="test"):
         subprocess.Popen('arecord -Dhw:1 -c 2 -f S16_LE -r 11015 proto.wav', \
         shell=True)#launch recording in shell
         p3.test(sample)#call excitation function of excitation group
+        time.sleep(2)
         subprocess.Popen("pkill arecord", shell=True)#kill shell process
 
     data, fs= sf.read('proto.wav')
