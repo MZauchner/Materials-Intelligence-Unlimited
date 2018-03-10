@@ -10,7 +10,7 @@ from scipy.fftpack import fft
 from scipy.io import wavfile
 from scipy.signal import find_peaks_cwt
 
-import Python3SolenoidDriver as p3
+import manual_pos_driver as p3
 import soundfile as sf
 
 sys.path.append('/home/pi/bin/VibratINC/D3/')
@@ -47,6 +47,7 @@ def analyze(sample, mode="test"):
 
         subprocess.Popen('arecord -Dhw:1 -c 2 -f S16_LE -r 11015 proto.wav', \
         shell=True)#launch recording in shell
+        p3.move(sample)
         p3.test(sample)#call excitation function of excitation group
         time.sleep(2)
         subprocess.Popen("pkill arecord", shell=True)#kill shell process

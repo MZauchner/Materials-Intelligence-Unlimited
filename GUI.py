@@ -9,7 +9,7 @@ from matplotlib.backends.backend_qt5agg import \
 
 from D1 import stepperD1python
 from D2 import slide_holder as sh
-from D3 import Python3SolenoidDriver as p3
+from D3 import manual_pos_driver as p3
 from D4 import conveyor as conv
 from D5 import pyserial_control as psc
 from D7 import analysis
@@ -219,8 +219,10 @@ class Window(QtWidgets.QWidget):
 
     """functions for excitation"""
     def exciterod(self):
+        p3.move("rod")
         p3.test("rod")
     def exicteslide(self):
+        p3.move("slide")
         p3.test("slide")
     def moveslide(self):
         return 0
