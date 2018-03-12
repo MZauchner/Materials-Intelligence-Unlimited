@@ -1,10 +1,11 @@
 /* 
-This is a test sketch for the Adafruit assembled Motor Shield for Arduino v2
-It won't work with v1.x motor shields! Only for the v2's with built in PWM
-control
+This is the Arduino command code for D1 stepper motor which pushes the rod from the silos into the test holder, wait for the 
+test to finish, then push the rod into the conveyor belt. 
 
-For use with the Adafruit Motor Shield v2 
----->	http://www.adafruit.com/products/1438
+The code contains adds-on Adafruit Motorshield code.
+
+Once the code is uploaded, open the Serial Monitor. Input "1" to push the rod from the silos into the test holder, and "2" to 
+push the rod from the test holder on to the conveyor belt. 
 */
 
 
