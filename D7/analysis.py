@@ -4,16 +4,14 @@ import sys
 import time
 
 import numpy as np
-import scipy.optimize as optimization
 from matplotlib import pyplot as plt
 from scipy.fftpack import fft
-from scipy.io import wavfile
-from scipy.signal import find_peaks_cwt
 
 import manual_pos_driver as p3
 import soundfile as sf
 
 sys.path.append('/home/pi/bin/VibratINC/D3/')
+
 """
 def func_rod(datax,A0,w0,tau0,A1,w1,tau1):
     return A0*np.exp(-0.5*((datax-w0)/tau0)**2)+ \
@@ -35,7 +33,7 @@ def analyze(sample, mode="test"):
 
     if mode == "recording":
 
-    """record for 10 seconds"""
+        """record for 10 seconds"""
 
         subprocess.Popen('arecord -Dhw:1 -c 2 -f S16_LE -r 11015 proto.wav', \
         shell=True)#launch recording in shell
@@ -52,17 +50,22 @@ def analyze(sample, mode="test"):
         time.sleep(2)
         subprocess.Popen("pkill arecord", shell=True)#kill shell process
 
-    data, fs= sf.read('proto.wav')
-    dt = 1/fs
-    n= data.shape[0]
-    k = np.arange(n)
-    time = n/fs
-    frequency = k/time
-    frequency = frequency[range(int(int(n)/2))]
+    data, fs= sf.read('proto.wav') # loading waveform
+
+    """scaling of x-axis data to get correct frequencies"""
+
+    dt = 1/fs #calculate frequency resolution
+    n= data.shape[0] #get number of fft points
+    k = np.arange(n) #create 1D-array sequence with length of number
+    #of fft point (0, 1,2,3...)
+    time = n/fs #get total time measured
+    frequency = k/time #scale 1-D array to get correct frequencies
+    frequency = frequency[range(int(int(n)/2))] #removal of redundant
+    #points (symmetry of FFT)
     print("time is "+ str(time))
 
-    a = data.T[0]
-    c = fft(a)
-    c = c[range(int(int(n)/2))]
-    d = len(c)/2
+    a = data.T[0] #get waveform data from channel 1
+    #print(a)
+    c = fft(a) #fourier transform
+    c = c[range(int(int(n)/2))] #removal of redundant points (symmetry of FFT)
     return frequency, abs(c)
