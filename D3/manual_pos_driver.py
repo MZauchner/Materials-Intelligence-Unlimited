@@ -16,7 +16,7 @@ slide_pos = 0
 ##General parameters
 ##Serial port  - currently set for windows
 ##These need to match the values in the arduino script!
-com_port = "COM3"
+com_port = '/dev/ttyACM0'
 baud_rate = 115200
 repeats = 5
 centre_val = 75 ##this is the servo's central position
