@@ -9,9 +9,9 @@ time.sleep(3)
 
 ##Sample specific parameters
 rod_strike = 7
-rod_pos = 30
+rod_pos = 137
 slide_strike = 10
-slide_pos = 160
+slide_pos = 0
 
 ##General parameters
 ##Serial port  - currently set for windows
