@@ -3,7 +3,7 @@ import serial
 
 #mode = input('choose your operating mode:')
 def slidesilo(mode):
-    ser = serial.Serial('/dev/ttyACM0', 9600)
+    ser = serial.Serial('/dev/ttyACM1', 9600)
 
     if mode == "rotate":
         

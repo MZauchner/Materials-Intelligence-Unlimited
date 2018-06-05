@@ -32,7 +32,7 @@ hold_time = 5 *60*1000
 rod_strike = 7
 rod_pos = 30
 slide_strike = 10
-slide_pos = 160
+slide_pos = 130
 
 def test(command):
     if command == "rod test":

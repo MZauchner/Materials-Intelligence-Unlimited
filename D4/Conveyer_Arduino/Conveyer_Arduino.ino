@@ -24,7 +24,7 @@ void loop()
     myMotor->run(RELEASE);      
   delay(1000);
     myMotor->run(BACKWARD);      
-  delay(3000);
+  delay(3500);
     myMotor->run(RELEASE);    
   delay(1000);
   }
@@ -33,11 +33,11 @@ void loop()
     myMotor->run(RELEASE);      
   delay(1000);
     myMotor->run(BACKWARD);      
-  delay(500);
+  delay(1000);
    myMotor->run(RELEASE);      
   delay(1000);
     myMotor->run(FORWARD);   
-  delay(2000);
+  delay(3000);
     myMotor->run(RELEASE);    
   delay(1000);
   }

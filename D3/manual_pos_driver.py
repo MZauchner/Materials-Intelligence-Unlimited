@@ -9,14 +9,14 @@ time.sleep(3)
 
 ##Sample specific parameters
 rod_strike = 7
-rod_pos = 137
+rod_pos = 165
 slide_strike = 10
-slide_pos = 0
+slide_pos = 20
 
 ##General parameters
 ##Serial port  - currently set for windows
 ##These need to match the values in the arduino script!
-com_port = '/dev/ttyACM0'
+com_port = '/dev/ttyUSB0'
 baud_rate = 115200
 repeats = 5
 centre_val = 75 ##this is the servo's central position
