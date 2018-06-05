@@ -9,19 +9,19 @@ time.sleep(3)
 
 ##Sample specific parameters
 rod_strike = 7
-rod_pos = 165
+rod_pos = 137
 slide_strike = 10
-slide_pos = 20
+slide_pos = 0
 
 ##General parameters
 ##Serial port  - currently set for windows
 ##These need to match the values in the arduino script!
-com_port = '/dev/ttyUSB0'
+
 baud_rate = 115200
 repeats = 5
 centre_val = 75 ##this is the servo's central position
 
-def move(obj):
+def move(obj, com_port = '/dev/ttyACM0'):
     ##Composes the command string
     ser = serial.Serial(com_port, baud_rate)
     if obj == "rod":
@@ -39,7 +39,7 @@ def move(obj):
                str(centre_val) + " " +
                str(0)).encode("utf-8"))
 
-def test(obj):
+def test(obj, com_port = '/dev/ttyACM0'):
     ser = serial.Serial(com_port, baud_rate)
     if obj == "rod":
         ser.write((str(rod_strike) + " " +

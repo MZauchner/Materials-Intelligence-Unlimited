@@ -6,18 +6,10 @@ import time
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy.fftpack import fft
-
-sys.path.append('/home/pi/bin/VibratINC/D3/')
-import manual_pos_driver as p3
-import soundfile as sf
-
-
-
 #sys.path.append('/home/pi/bin/VibratINC/D3/')
-sys.path.append('/Users/mariozauchner/Dev/VibratINC/D3')
+sys.path.append('/home/pi/VibratINC/D3')
 import manual_pos_driver as p3
 import soundfile as sf
-
 
 
 """
@@ -36,26 +28,25 @@ def ddata(datax, datay):
         ddatay.append((datay[i+1]-datay[i])/step)
     return ddatay
 """
-def analyze(sample, mode="test"):
-    import time
+def analyze(sample, mode="test", com_port = '/dev/ttyACM0'):
 
 
     if mode == "recording":
 
         """record for 10 seconds"""
 
-        subprocess.Popen('arecord -Dhw:1 -c 2 -f S16_LE -r 11015 proto.wav',shell=True)#launch recording in shell
+        subprocess.Popen('arecord -Dhw:1 -c 2 -f S16_LE -r 11015 proto.wav', \
+        shell=True)#launch recording in shell
         time.sleep(10) #wait for 10 seconds
         subprocess.Popen("pkill arecord", shell=True)#kill shell process
     else:
 
         """launch subprocess for recording and excitation of sample"""
 
-        subprocess.Popen('arecord -Dhw:1 -c 2 -f S16_LE -r 11015 proto.wav', shell=True, stdin=None,
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE)#launch recording in shell
-        p3.move(sample)
-        time.sleep(2)
-        p3.test(sample)#call excitation function of excitation group
+        subprocess.Popen('arecord -Dhw:1 -c 2 -f S16_LE -r 11015 proto.wav', \
+        shell=True)#launch recording in shell
+        p3.move(sample,com_port)
+        p3.test(sample,com_port)#call excitation function of excitation group
         time.sleep(2)
         subprocess.Popen("pkill arecord", shell=True)#kill shell process
 
@@ -76,13 +67,5 @@ def analyze(sample, mode="test"):
     a = data.T[0] #get waveform data from channel 1
     #print(a)
     c = fft(a) #fourier transform
-    
-        
-    c = c[range(int(int(n)/2))]#removal of redundant points (symmetry of FFT)
-    if sample == "rod":
-        frequency = frequency[4000:]
-        c = c[4000:]
-    else:
-        frequency = frequency[2000:]
-        c = c[2000:]
+    c = c[range(int(int(n)/2))] #removal of redundant points (symmetry of FFT)
     return frequency, abs(c)

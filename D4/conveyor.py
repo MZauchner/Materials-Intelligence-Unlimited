@@ -2,8 +2,8 @@
 import serial
 
 
-def conveyor(mode):
-    ser = serial.Serial('/dev/ttyACM4', 9600)
+def conveyor(mode, com_port = '/dev/ttyACM0'):
+    ser = serial.Serial(com_port, 9600)
 
     #mode = input('choose your operating mode:')
 
