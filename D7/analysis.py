@@ -58,11 +58,11 @@ def analyze(sample, mode="test", com_port = '/dev/ttyACM0'):
     n= data.shape[0] #get number of fft points
     k = np.arange(n) #create 1D-array sequence with length of number
     #of fft point (0, 1,2,3...)
-    time = n/fs #get total time measured
-    frequency = k/time #scale 1-D array to get correct frequencies
+    times = n/fs #get total time measured
+    frequency = k/times #scale 1-D array to get correct frequencies
     frequency = frequency[range(int(int(n)/2))] #removal of redundant
     #points (symmetry of FFT)
-    print("time is "+ str(time))
+    print("time is "+ str(times))
 
     a = data.T[0] #get waveform data from channel 1
     #print(a)
