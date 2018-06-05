@@ -1,4 +1,5 @@
 import sys
+import time
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -21,6 +22,7 @@ class Window(QtWidgets.QWidget):
 
     def __init__(self):
         super().__init__()
+        self.stopvar = False
         self.figure = plt.figure()
 
         # this is the Canvas Widget that displays the `figure`
@@ -43,7 +45,16 @@ class Window(QtWidgets.QWidget):
         self.result = QtWidgets.QLabel()
         self.resultlabel = QtWidgets.QLabel("result")
 
-
+        self.rodsilo_te = QtWidgets.QLineEdit("/dev/ACM0")
+        self.slidesilo_te = QtWidgets.QLineEdit("/dev/ACM1")
+        self.slideholder_te = QtWidgets.QLineEdit("/dev/ACM2")
+        self.conveyor_te = QtWidgets.QLineEdit("/dev/ACM3")
+        self.excitation_te = QtWidgets.QLineEdit("/dev/USB0")
+        self.excitation_label = QtWidgets.QLabel("excitation")
+        self.conveyor_label = QtWidgets.QLabel("conveyor")
+        self.rodsilo_label = QtWidgets.QLabel("rod silo")
+        self.slidesilo_label = QtWidgets.QLabel("slide silo")
+        self.slideholder_label = QtWidgets.QLabel("slide holder")
         self.b = QtWidgets.QPushButton("push in")
         self.l = QtWidgets.QLabel("rod silo")
         self.b2 = QtWidgets.QPushButton("push out")
@@ -70,6 +81,10 @@ class Window(QtWidgets.QWidget):
         self.b13 = QtWidgets.QPushButton("run all")
         self.b14 = QtWidgets.QPushButton("stop")
         self.b17= QtWidgets.QPushButton("adjust -36 deg")
+        self.sample_list = QtWidgets.QListWidget()
+        self.button_add_slide = QtWidgets.QPushButton("add slide")
+        self.button_remove = QtWidgets.QPushButton("remove")
+        self.button_add_rod = QtWidgets.QPushButton("add rod")
 
 
         hbox = QtWidgets.QHBoxLayout()
@@ -83,8 +98,15 @@ class Window(QtWidgets.QWidget):
         vbox = QtWidgets.QVBoxLayout()
         """options box"""
         vbox2 = QtWidgets.QVBoxLayout()
+        """sample list box"""
+        vbox4 = QtWidgets.QVBoxLayout()
         """plot box"""
         vbox3 = QtWidgets.QVBoxLayout()
+
+        vbox4.addWidget(self.sample_list)
+        vbox4.addWidget(self.button_add_slide)
+        vbox4.addWidget(self.button_add_rod)
+        vbox4.addWidget(self.button_remove)
         vbox3.addWidget(self.canvas)
         vbox2.addWidget(self.rodfrequencyl)
         vbox2.addWidget(self.rodfrequency)
@@ -92,8 +114,8 @@ class Window(QtWidgets.QWidget):
         vbox2.addWidget(self.slidefrequency)
         vbox2.addWidget(self.frequencytolerancel)
         vbox2.addWidget(self.frequencytolerance)
-        vbox2.addWidget(self.resultlabel)
-        vbox2.addWidget(self.result)
+        vbox3.addWidget(self.resultlabel)
+        vbox3.addWidget(self.result)
         vbox.addWidget(self.l)
 
         vbox.addWidget(self.b) #rod silo
@@ -118,9 +140,20 @@ class Window(QtWidgets.QWidget):
         vbox.addWidget(self.b11)
         vbox.addWidget(self.b12)
         #vbox.addWidget(self.l6) #run all
-        vbox.addWidget(self.b13)
-        vbox.addWidget(self.b14)
+        vbox2.addWidget(self.b13)
+        vbox2.addWidget(self.b14)
+        vbox2.addWidget(self.slidesilo_label)
+        vbox2.addWidget(self.slidesilo_te)
+        vbox2.addWidget(self.rodsilo_label)
+        vbox2.addWidget(self.rodsilo_te)
+        vbox2.addWidget(self.slideholder_label)
+        vbox2.addWidget(self.slideholder_te)
+        vbox2.addWidget(self.conveyor_label)
+        vbox2.addWidget(self.conveyor_te)
+        vbox2.addWidget(self.excitation_label)
+        vbox2.addWidget(self.excitation_te)
         hbox.addLayout(vbox3)
+        hbox.addLayout(vbox4)
         hbox.addLayout(vbox2)
         hbox.addLayout(vbox)
         self.setLayout(hbox)
@@ -154,6 +187,16 @@ class Window(QtWidgets.QWidget):
         """buttons for frequency analysis"""
         self.b9.clicked.connect(self.analyserod) #analyse rod
         self.b10.clicked.connect(self.analyseslide) #analyse slide
+
+        """buttons for sample list"""
+        self.button_add_slide.clicked.connect(self.add_slide)
+        self.button_add_rod.clicked.connect(self.add_rod)
+        self.button_remove.clicked.connect(self.remove)
+
+        """automatic mode buttons"""
+        self.b13.clicked.connect(self.run_all)
+        self.b14.clicked.connect(self.stop)
+
 
 
     """function for frequency analysis"""
@@ -225,15 +268,126 @@ class Window(QtWidgets.QWidget):
         p3.move("slide")
         p3.test("slide")
     def moveslide(self):
-        return 0
+        p3.move("slide")
     def moverod(self):
-        return 0
+        p3.move("rod")
 
     """functions for conveyor belt"""
     def convforward(self):
         conv.conveyor("1")
     def convbackward(self):
         conv.conveyor("2")
+
+    """function for full automation. This is rather convoluted, because
+     I need to test if someone clicked the stop button after each step of the
+     process and make sure that the samples come out in the correct order.
+     I wouldn't try to understand the actual code, but what it essentially does is:
+     iterate over every element in the list and execute the routine for the type
+     of sample. If the sample is rejected: test the same sample again. If it
+     is accepted, continue to the next and remove the sample from the sample list.
+     If someone clicked the stop button during execution, the while loop breaks append
+     automatic execution is stopped.
+    """
+
+    def run_all(self):
+        self.stopvar = False
+        self.rejected = False
+        itemsTextList =  [str(self.sample_list.item(i).text()) for i in range(self.sample_list.count())]
+        itemindex = 0
+        while itemindex < len(list(itemsTextList)):
+            if itemsTextList[itemindex] == "slide" and self.stopvar == False:
+                if self.stopvar == False:
+                    self.sliderotate() #push slide into slide_holder
+                else:
+                    break
+                time.sleep(3)
+                if self.stopvar == False:
+                    self.analyseslide() #analyse slide
+                else:
+                    break
+                if self.stopvar == False:
+                    self.moverod() #move excitation device to rod to prevent collision
+                else:
+                    break
+                time.sleep(2)
+                if self.stopvar == False:
+                    self.slideholderboth() #eject slide from slideholder
+                else:
+                    break
+                if self.result.text() == "rejected":
+                    self.rejected = True
+                    if self.stopvar == False:
+                        self.convbackward()#reject sample
+                    else:
+                        break
+                else:
+                    self.rejected = False
+                    itemindex += 1 #move to next sample
+                    if self.stopvar == False:
+                        self.convforward()#accept sample
+                        items_list = self.sample_list.findItems("slide",Qt.MatchExactly)
+                        item = items_list[0]
+                        r = self.sample_list.row(item)
+                        self.sample_list.takeItem(r) #remove item from sample_list
+                    else:
+                        break
+
+
+            if itemsTextList[itemindex]  == "rod" and self.stopvar == False:
+                if self.stopvar == False:
+                    self.rodsilo_push_in()  # push rod in
+
+                else:
+                    break
+                time.sleep(3)
+                if self.stopvar == False:
+                    self.analyserod()
+
+                else:
+                    break
+                time.sleep(2)
+                if self.stopvar == False:
+                    self.rodsilo_push_out() # push rod out
+
+                else:
+                    break
+                if self.result.text() == "rejected":
+                    self.rejected = True
+                    if self.stopvar == False:
+                        self.convbackward()#reject sample
+
+                    else:
+                        break
+                else:
+                    self.rejected = False
+                    itemindex += 1 # move to next sample
+                    if self.stopvar == False:
+                        self.convforward()#accept sample
+                        items_list = self.sample_list.findItems("rod",Qt.MatchExactly)
+                        item = items_list[0]
+                        r = self.sample_list.row(item)
+                        self.sample_list.takeItem(r) #remove item from sample_list
+                    else:
+                        break
+            else:
+                break
+
+
+    def stop(self):
+        self.stopvar = True
+
+
+    def add_slide(self):
+        self.sample_list.addItem("slide")
+    def add_rod(self):
+        self.sample_list.addItem("rod")
+    def remove(self):
+        try:
+            item = self.sample_list.selectedItems()[0]
+            self.sample_list.takeItem(self.sample_list.row(item))
+        except:
+            pass
+
 
 
 app = QtWidgets.QApplication(sys.argv)
