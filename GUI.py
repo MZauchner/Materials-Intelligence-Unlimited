@@ -45,11 +45,11 @@ class Window(QtWidgets.QWidget):
         self.result = QtWidgets.QLabel()
         self.resultlabel = QtWidgets.QLabel("result")
 
-        self.rodsilo_te = QtWidgets.QLineEdit("/dev/ACM0")
-        self.slidesilo_te = QtWidgets.QLineEdit("/dev/ACM1")
-        self.slideholder_te = QtWidgets.QLineEdit("/dev/ACM2")
-        self.conveyor_te = QtWidgets.QLineEdit("/dev/ACM3")
-        self.excitation_te = QtWidgets.QLineEdit("/dev/USB0")
+        self.rodsilo_te = QtWidgets.QLineEdit("/dev/ttyACM0")
+        self.slidesilo_te = QtWidgets.QLineEdit("/dev/ttyACM1")
+        self.slideholder_te = QtWidgets.QLineEdit("/dev/ttyACM2")
+        self.conveyor_te = QtWidgets.QLineEdit("/dev/ttyACM3")
+        self.excitation_te = QtWidgets.QLineEdit("/dev/ttyUSB0")
         self.excitation_label = QtWidgets.QLabel("excitation")
         self.conveyor_label = QtWidgets.QLabel("conveyor")
         self.rodsilo_label = QtWidgets.QLabel("rod silo")
@@ -396,3 +396,4 @@ class Window(QtWidgets.QWidget):
 app = QtWidgets.QApplication(sys.argv)
 a_window = Window()
 sys.exit(app.exec_())
+

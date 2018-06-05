@@ -6,7 +6,15 @@ import time
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy.fftpack import fft
+
 sys.path.append('/home/pi/bin/VibratINC/D3/')
+import manual_pos_driver as p3
+import soundfile as sf
+
+
+
+#sys.path.append('/home/pi/bin/VibratINC/D3/')
+sys.path.append('/Users/mariozauchner/Dev/VibratINC/D3')
 import manual_pos_driver as p3
 import soundfile as sf
 
