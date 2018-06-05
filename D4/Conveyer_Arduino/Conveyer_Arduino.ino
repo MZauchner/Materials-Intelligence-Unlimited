@@ -12,7 +12,7 @@ void setup() {
   Serial.begin(9600);           
   Serial.println("Motor test!");
   
-  myMotor->setSpeed(80);     
+  myMotor->setSpeed(120);     
 }
  
 void loop() 
@@ -24,7 +24,7 @@ void loop()
     myMotor->run(RELEASE);      
   delay(1000);
     myMotor->run(BACKWARD);      
-  delay(3500);
+  delay(5500);
     myMotor->run(RELEASE);    
   delay(1000);
   }
@@ -33,11 +33,11 @@ void loop()
     myMotor->run(RELEASE);      
   delay(1000);
     myMotor->run(BACKWARD);      
-  delay(1000);
+  delay(2000);
    myMotor->run(RELEASE);      
   delay(1000);
     myMotor->run(FORWARD);   
-  delay(3000);
+  delay(500);
     myMotor->run(RELEASE);    
   delay(1000);
   }

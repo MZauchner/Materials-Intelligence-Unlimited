@@ -203,7 +203,7 @@ class Window(QtWidgets.QWidget):
     def analyserod(self):
         self.figure.clear()
         ax = self.figure.add_subplot(111)
-        frequency, amplitude = analysis.analyze("rod", com_port=self.excitation_te)
+        frequency, amplitude = analysis.analyze("rod", com_port=self.excitation_te.text())
         resonance = frequency[np.where(amplitude == max(amplitude))]
         rodf = float(self.rodfrequency.text())
         tol = float(self.frequencytolerance.text())
@@ -222,7 +222,7 @@ class Window(QtWidgets.QWidget):
         self.figure.clear()
         ax = self.figure.add_subplot(111)
 
-        frequency, amplitude = analysis.analyze("slide",com_port=self.excitation_te)
+        frequency, amplitude = analysis.analyze("slide",com_port=self.excitation_te.text())
         resonance = frequency[np.where(amplitude == max(amplitude))]
         print(resonance)
         slidef = float(self.slidefrequency.text())
@@ -239,47 +239,47 @@ class Window(QtWidgets.QWidget):
     """functions for rod silo"""
 
     def rodsilo_push_in(self):
-        stepperD1python.rodsilo("1", com_port = self.rodsilo_te)
+        stepperD1python.rodsilo("1", com_port = self.rodsilo_te.text())
 
     def rodsilo_push_out(self):
-        stepperD1python.rodsilo("2", com_port=self.rodsilo_te)
+        stepperD1python.rodsilo("2", com_port=self.rodsilo_te.text())
 
     """buttons for slidsilo"""
     def slideforward(self): #adjusts position of stepper motor by +36 degrees
-        psc.slidesilo("forward", com_port=self.slidesilo_te)
+        psc.slidesilo("forward", com_port=self.slidesilo_te.text())
 
     def slidebackward(self): #adjusts position of stepper motor by -36 degrees
-        psc.slidesilo("backward", com_port=self.slidesilo_te)
+        psc.slidesilo("backward", com_port=self.slidesilo_te.text())
 
     def sliderotate(self): #pushes slides into holder
-        psc.slidesilo("rotate", com_port=self.slidesilo_te)
+        psc.slidesilo("rotate", com_port=self.slidesilo_te.text())
 
 
     """button functions for slideholder"""
     def slideholderforward(self):
-        sh.slideholder("cw", com_port=self.slideholder_te)
+        sh.slideholder("cw", com_port=self.slideholder_te.text())
     def slideholderbackward(self):
-        sh.slideholder("ccw",, com_port=self.slideholder_te)
+        sh.slideholder("ccw", com_port=self.slideholder_te.text())
     def slideholderboth(self):
-        sh.slideholder("both", com_port=self.slideholder_te)
+        sh.slideholder("both", com_port=self.slideholder_te.text())
 
     """functions for excitation"""
     def exciterod(self):
-        p3.move("rod")
-        p3.test("rod")
+        p3.move("rod",com_port=self.excitation_te.text())
+        p3.test("rod",com_port=self.excitation_te.text())
     def exicteslide(self):
-        p3.move("slide", com_port=self.excitation_te)
-        p3.test("slide")
+        p3.move("slide", com_port=self.excitation_te.text())
+        p3.test("slide",com_port=self.excitation_te.text())
     def moveslide(self):
-        p3.move("slide",com_port=self.excitation_te)
+        p3.move("slide",com_port=self.excitation_te.text())
     def moverod(self):
-        p3.move("rod",com_port=self.excitation_te)
+        p3.move("rod",com_port=self.excitation_te.text())
 
     """functions for conveyor belt"""
     def convforward(self):
-        conv.conveyor("1", com_port=self.conveyor_te)
+        conv.conveyor("1", com_port=self.conveyor_te.text())
     def convbackward(self):
-        conv.conveyor("2", com_port=self.conveyor_te)
+        conv.conveyor("2", com_port=self.conveyor_te.text())
 
     """function for full automation. This is rather convoluted, because
      I need to test if someone clicked the stop button after each step of the
