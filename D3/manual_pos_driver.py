@@ -21,7 +21,7 @@ baud_rate = 115200
 repeats = 5
 centre_val = 75 ##this is the servo's central position
 
-def move(obj, com_port = '/dev/ttyACM0'):
+def move(obj, com_port = '/dev/ttyUSB0'):
     ##Composes the command string
     ser = serial.Serial(com_port, baud_rate)
     if obj == "rod":

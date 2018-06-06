@@ -239,7 +239,7 @@ class Window(QtWidgets.QWidget):
     """functions for rod silo"""
 
     def rodsilo_push_in(self):
-        stepperD1python.rodsilo("1", com_port = self.rodsilo_te.text())
+        stepperD1python.rodsilo("1", com_port=self.rodsilo_te.text())
 
     def rodsilo_push_out(self):
         stepperD1python.rodsilo("2", com_port=self.rodsilo_te.text())
