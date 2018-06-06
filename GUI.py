@@ -265,10 +265,10 @@ class Window(QtWidgets.QWidget):
 
     """functions for excitation"""
     def exciterod(self):
-        p3.move("rod",com_port=self.excitation_te.text())
+        
         p3.test("rod",com_port=self.excitation_te.text())
     def exicteslide(self):
-        p3.move("slide", com_port=self.excitation_te.text())
+        
         p3.test("slide",com_port=self.excitation_te.text())
     def moveslide(self):
         p3.move("slide",com_port=self.excitation_te.text())

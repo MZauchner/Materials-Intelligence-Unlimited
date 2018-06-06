@@ -45,7 +45,7 @@ def analyze(sample, mode="test", com_port = '/dev/ttyACM0'):
 
         subprocess.Popen('arecord -Dhw:1 -c 2 -f S16_LE -r 11015 proto.wav', \
         shell=True)#launch recording in shell
-        p3.move(sample,com_port)
+        
         p3.test(sample,com_port)#call excitation function of excitation group
         time.sleep(2)
         subprocess.Popen("pkill arecord", shell=True)#kill shell process
