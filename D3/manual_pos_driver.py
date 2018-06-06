@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Jun  6 17:52:08 2018
+
+@author: user
+"""
+
 import time
 
 import serial
@@ -38,6 +45,8 @@ def move(obj, com_port = '/dev/ttyUSB0'):
         ser.write((str(0) + " " +
                str(centre_val) + " " +
                str(0)).encode("utf-8"))
+        
+    ser.close()
 
 def test(obj, com_port = '/dev/ttyACM0'):
     ser = serial.Serial(com_port, baud_rate)
@@ -50,3 +59,5 @@ def test(obj, com_port = '/dev/ttyACM0'):
         ser.write((str(slide_strike) + " " +
                str(slide_pos) + " " +
                str(repeats)).encode("utf-8"))
+        
+    ser.close()
