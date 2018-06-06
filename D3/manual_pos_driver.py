@@ -19,7 +19,7 @@ slide_pos = 30
 
 baud_rate = 115200
 repeats = 5
-centre_val = 75 ##this is the servo's central position
+centre_val = 90 ##this is the servo's central position
 
 def move(obj, com_port = '/dev/ttyUSB0'):
     ##Composes the command string
@@ -43,10 +43,10 @@ def test(obj, com_port = '/dev/ttyACM0'):
     ser = serial.Serial(com_port, baud_rate)
     if obj == "rod":
         ser.write((str(rod_strike) + " " +
-                   str(-1) + " " +
+                   str(rod_pos) + " " +
                    str(repeats)).encode("utf-8"))
 
     elif obj == "slide":
         ser.write((str(slide_strike) + " " +
-               str(-1) + " " +
+               str(slide_pos) + " " +
                str(repeats)).encode("utf-8"))
