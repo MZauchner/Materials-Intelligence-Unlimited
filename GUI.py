@@ -35,12 +35,14 @@ class Window(QtWidgets.QWidget):
         self.init_ui()
 
     def init_ui(self):
-        self.rodfrequency = QtWidgets.QLineEdit("4500")
+        self.rodfrequency = QtWidgets.QLineEdit("3450")
         self.rodfrequencyl = QtWidgets.QLabel("frequency of rod [Hz]")
 
-        self.slidefrequency = QtWidgets.QLineEdit("1050")
+        self.slidefrequency = QtWidgets.QLineEdit("3800")
         self.slidefrequencyl = QtWidgets.QLabel("frequency of slide [Hz]")
         self.frequencytolerance = QtWidgets.QLineEdit("200")
+        self.srequencytolerance = QtWidgets.QLineEdit("200")
+        
         self.frequencytolerancel = QtWidgets.QLabel("tolerated error [Hz]")
         self.result = QtWidgets.QLabel()
         self.resultlabel = QtWidgets.QLabel("result")
@@ -114,6 +116,7 @@ class Window(QtWidgets.QWidget):
         vbox2.addWidget(self.slidefrequency)
         vbox2.addWidget(self.frequencytolerancel)
         vbox2.addWidget(self.frequencytolerance)
+        vbox2.addWidget(self.srequencytolerance)
         vbox3.addWidget(self.resultlabel)
         vbox3.addWidget(self.result)
         vbox.addWidget(self.l)
@@ -204,6 +207,8 @@ class Window(QtWidgets.QWidget):
         self.figure.clear()
         ax = self.figure.add_subplot(111)
         frequency, amplitude = analysis.analyze("rod", com_port=self.excitation_te.text())
+        frequency = frequency[2000:]
+        amplitude = amplitude[2000:]
         resonance = frequency[np.where(amplitude == max(amplitude))]
         rodf = float(self.rodfrequency.text())
         tol = float(self.frequencytolerance.text())
@@ -223,11 +228,14 @@ class Window(QtWidgets.QWidget):
         ax = self.figure.add_subplot(111)
 
         frequency, amplitude = analysis.analyze("slide",com_port=self.excitation_te.text())
+        frequency = frequency[3000:-1000] 
+        amplitude = amplitude[3000:-1000]
         resonance = frequency[np.where(amplitude == max(amplitude))]
         print(resonance)
         slidef = float(self.slidefrequency.text())
         tol = float(self.frequencytolerance.text())
-        if resonance <= slidef-tol/2 or resonance >=slidef+tol/2:
+        tol2 = float(self.srequencytolerance.text())
+        if resonance <= slidef-tol2/2 or resonance >=slidef+tol2/2:
             self.result.setText("rejected")
         else:
             self.result.setText("accepted")
@@ -303,7 +311,7 @@ class Window(QtWidgets.QWidget):
                     self.sliderotate() #push slide into slide_holder
                 else:
                     break
-                time.sleep(3)
+                time.sleep(10)
                 if self.stopvar == False:
                     self.analyseslide() #analyse slide
                 else:
@@ -312,7 +320,7 @@ class Window(QtWidgets.QWidget):
                     self.moverod() #move excitation device to rod to prevent collision
                 else:
                     break
-                time.sleep(2)
+                time.sleep(3)
                 if self.stopvar == False:
                     self.slideholderboth() #eject slide from slideholder
                 else:
@@ -350,6 +358,7 @@ class Window(QtWidgets.QWidget):
                     break
                 time.sleep(2)
                 if self.stopvar == False:
+                    self.moveslide()
                     self.rodsilo_push_out() # push rod out
 
                 else:

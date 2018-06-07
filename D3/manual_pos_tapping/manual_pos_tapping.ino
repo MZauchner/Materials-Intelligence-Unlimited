@@ -25,7 +25,7 @@ void loop() {
     if (head_pos != -1){
      head_rotate.write(head_pos); 
     }
-    delay(10);
+    delay(500);
     for (int i = 0; i < repeats; i++){
       digitalWrite(solenoid_switch, HIGH);
       delay(impact_time);

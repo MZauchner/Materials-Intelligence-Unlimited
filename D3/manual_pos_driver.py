@@ -16,9 +16,9 @@ time.sleep(3)
 
 ##Sample specific parameters
 rod_strike = 7
-rod_pos = 160
+rod_pos = 150
 slide_strike = 10
-slide_pos = 30
+slide_pos = 25
 
 ##General parameters
 ##Serial port  - currently set for windows
@@ -26,6 +26,7 @@ slide_pos = 30
 
 baud_rate = 115200
 repeats = 5
+repeats_slide = 5
 centre_val = 90 ##this is the servo's central position
 
 def move(obj, com_port = '/dev/ttyUSB0'):
@@ -58,6 +59,6 @@ def test(obj, com_port = '/dev/ttyACM0'):
     elif obj == "slide":
         ser.write((str(slide_strike) + " " +
                str(slide_pos) + " " +
-               str(repeats)).encode("utf-8"))
+               str(repeats_slide)).encode("utf-8"))
         
     ser.close()
